@@ -30,22 +30,14 @@ var dragula = require('dragula');
             dragBoards: true,
             addItemButton: false,
             buttonContent: '+',
-            dragEl: function (el, source) {
-            },
-            dragendEl: function (el) {
-            },
-            dropEl: function (el, target, source, sibling) {
-            },
-            dragBoard: function (el, source) {
-            },
-            dragendBoard: function (el) {
-            },
-            dropBoard: function (el, target, source, sibling) {
-            },
-            click: function (el) {
-            },
-            buttonClick: function (el, boardId) {
-            }
+            dragEl: function (el, source) {},
+            dragendEl: function (el) {},
+            dropEl: function (el, target, source, sibling) {},
+            dragBoard: function (el, source) {},
+            dragendBoard: function (el) {},
+            dropBoard: function (el, target, source, sibling) {},
+            click: function (el) {},
+            buttonClick: function (el, boardId) {}
         };
 
         if (arguments[0] && typeof arguments[0] === "object") {
@@ -60,39 +52,39 @@ var dragula = require('dragula');
 
                 //Init Drag Board
                 self.drakeBoard = self.dragula([self.container], {
-                    moves: function (el, source, handle, sibling) {
-                        if (!self.options.dragBoards) return false;
-                        return (handle.classList.contains('kanban-board-header') || handle.classList.contains('kanban-title-board'));
-                    },
-                    accepts: function (el, target, source, sibling) {
-                        return target.classList.contains('kanban-container');
-                    },
-                    revertOnSpill: true,
-                    direction: 'horizontal',
-                })
+                        moves: function (el, source, handle, sibling) {
+                            if (!self.options.dragBoards) return false;
+                            return (handle.classList.contains('kanban-board-header') || handle.classList.contains('kanban-title-board'));
+                        },
+                        accepts: function (el, target, source, sibling) {
+                            return target.classList.contains('kanban-container');
+                        },
+                        revertOnSpill: true,
+                        direction: 'horizontal',
+                    })
                     .on('drag', function (el, source) {
                         el.classList.add('is-moving');
                         self.options.dragBoard(el, source);
-                        if (typeof(el.dragfn) === 'function')
+                        if (typeof (el.dragfn) === 'function')
                             el.dragfn(el, source);
                     })
                     .on('dragend', function (el) {
                         el.classList.remove('is-moving');
                         self.options.dragendBoard(el);
-                        if (typeof(el.dragendfn) === 'function')
+                        if (typeof (el.dragendfn) === 'function')
                             el.dragendfn(el);
                     })
                     .on('drop', function (el, target, source, sibling) {
                         el.classList.remove('is-moving');
                         self.options.dropBoard(el, target, source, sibling);
-                        if (typeof(el.dropfn) === 'function')
+                        if (typeof (el.dropfn) === 'function')
                             el.dropfn(el, target, source, sibling);
                     });
 
                 //Init Drag Item
                 self.drake = self.dragula(self.boardContainer, function () {
-                    revertOnSpill: true
-                })
+                        revertOnSpill: true
+                    })
                     .on('drag', function (el, source) {
                         el.classList.add('is-moving');
                         var boardJSON = __findBoardJSON(source.parentNode.dataset.id);
@@ -105,12 +97,12 @@ var dragula = require('dragula');
                         }
 
                         self.options.dragEl(el, source);
-                        if (el !== null && typeof(el.dragfn) === 'function')
+                        if (el !== null && typeof (el.dragfn) === 'function')
                             el.dragfn(el, source);
                     })
                     .on('dragend', function (el) {
                         self.options.dragendEl(el);
-                        if (el !== null && typeof(el.dragendfn) === 'function')
+                        if (el !== null && typeof (el.dragendfn) === 'function')
                             el.dragendfn(el);
                     })
                     .on('drop', function (el, target, source, sibling) {
@@ -130,7 +122,7 @@ var dragula = require('dragula');
                         if (el !== null) {
                             self.options.dropEl(el, target, source, sibling);
                             el.classList.remove('is-moving');
-                            if (typeof(el.dropfn) === 'function')
+                            if (typeof (el.dropfn) === 'function')
                                 el.dropfn(el, target, source, sibling);
                         }
                     })
@@ -142,7 +134,7 @@ var dragula = require('dragula');
             var nodeItem = document.createElement('div');
             nodeItem.classList.add('kanban-item');
             if (element.id) {
-              nodeItem.setAttribute('data-eid', element.id)
+                nodeItem.setAttribute('data-eid', element.id)
             }
             nodeItem.innerHTML = element.title;
             //add function
@@ -256,14 +248,14 @@ var dragula = require('dragula');
         }
 
         this.removeElement = function (el) {
-            if (typeof(el) === 'string')
+            if (typeof (el) === 'string')
                 el = self.element.querySelector('[data-eid="' + el + '"]');
             el.remove();
             return self;
         };
 
         this.removeBoard = function (board) {
-            if (typeof(board) === 'string')
+            if (typeof (board) === 'string')
                 board = self.element.querySelector('[data-id="' + board + '"]');
             board.remove();
             return self;
@@ -302,7 +294,7 @@ var dragula = require('dragula');
             nodeItem.addEventListener('click', function (e) {
                 e.preventDefault;
                 self.options.click(this);
-                if (typeof(this.clickfn) === 'function')
+                if (typeof (this.clickfn) === 'function')
                     this.clickfn(this);
             });
         }
@@ -331,4 +323,3 @@ var dragula = require('dragula');
         this.init();
     };
 }());
-
